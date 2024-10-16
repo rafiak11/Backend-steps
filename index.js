@@ -53,6 +53,7 @@ app.use(express.urlencoded({ extended: true }));
 // Get allowed origins from environment variables
 const allowedOrigins = process.env.ALLOWED_ORIGINS.split(',');
 
+//cors setup
 app.use(cors({
     origin: function(origin, callback) {
         if (!origin) return callback(null, true);
@@ -67,6 +68,15 @@ app.use(cors({
 
 app.use(upload());
 app.use('/uploads', express.static(__dirname + '/uploads'));
+
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// Handles requests for the React app
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+
 
 // Root Route
 app.get('/', (req, res) => {
