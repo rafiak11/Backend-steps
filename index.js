@@ -71,7 +71,7 @@ app.use(upload());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
 // Serve static files from the React frontend app
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 // Handles requests for the React app
 app.get('*', (req, res) => {
