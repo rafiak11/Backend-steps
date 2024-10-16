@@ -81,9 +81,22 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(express.static(path.join(__dirname, '../client/build')));
 
 // Handles requests for the React app
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..client/build/index.html'));
+app.get('*', (req, res, next) => {
+    const filePath = path.join(__dirname, '..', 'client', 'build', 'index.html');
+    
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            if (err.code === 'ENOENT') {
+                // File not found, send 404
+                res.status(404).send('File not found');
+            } else {
+                // Other errors, send 500
+                res.status(500).send('Server error');
+            }
+        }
+    });
 });
+
 
 
 // Root Route
