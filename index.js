@@ -68,6 +68,11 @@ app.use(cors({
 app.use(upload());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
+// Root Route
+app.get('/', (req, res) => {
+    res.send('Welcome to the API!');  // Customize this message as needed
+});
+
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/posts', postRoutes);
