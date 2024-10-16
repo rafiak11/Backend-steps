@@ -40,12 +40,18 @@ const { connect } = require('mongoose');
 require('dotenv').config();
 const upload = require('express-fileupload');
 const path = require('path');
-
+const { fileURLToPath }= require('url');
+const morgan= require('morgan')
 const userRoutes = require('./routes/userRoutes');
 const postRoutes = require('./routes/postRoutes');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 const app = express();
+
+//Resolving dirname for ES module
+// const __filenam = fileURLToPath(import.meta.url)
+// const __dirname=path.dirname(__filenam)
+console.log(__dirname);
 
 // Middleware
 app.use(morgan('dev')); // Use morgan for logging requests
@@ -76,7 +82,7 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 
 // Handles requests for the React app
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, '..client/build/index.html'));
 });
 
 
