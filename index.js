@@ -48,6 +48,7 @@ const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 const app = express();
 
 // Middleware
+app.use(morgan('dev')); // Use morgan for logging requests
 app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 
@@ -92,6 +93,12 @@ app.use('/api', contactRoutes);
 // Error Handling Middleware
 app.use(notFound);
 app.use(errorHandler);
+
+// Custom error logging middleware
+app.use((err, req, res, next) => {
+    console.error('Error occurred:', err); // Log the error
+    next(err); // Pass the error to the next middleware
+});
 
 // Database Connection and Server Start
 const PORT = process.env.PORT || 5000;
