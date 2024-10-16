@@ -80,6 +80,20 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 // Serve static files from the React frontend app
 app.use(express.static(path.join(__dirname, '../client/build')));
 
+
+
+
+
+// Root Route
+app.get('/', (req, res) => {
+    res.send('Welcome to the API!');  // Customize this message as needed
+});
+
+// Routes
+app.use('/api/users', userRoutes);
+app.use('/api/posts', postRoutes);
+app.use('/api', contactRoutes);
+
 // Handles requests for the React app
 app.get('*', (req, res, next) => {
     const filePath = path.join(__dirname, '..', 'client', 'build', 'index.html');
@@ -96,18 +110,6 @@ app.get('*', (req, res, next) => {
         }
     });
 });
-
-
-
-// Root Route
-app.get('/', (req, res) => {
-    res.send('Welcome to the API!');  // Customize this message as needed
-});
-
-// Routes
-app.use('/api/users', userRoutes);
-app.use('/api/posts', postRoutes);
-app.use('/api', contactRoutes);
 
 // Error Handling Middleware
 app.use(notFound);
